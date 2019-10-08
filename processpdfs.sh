@@ -33,3 +33,5 @@ bookindex.pl -d
 bookindex.pl -a
 
 mv -n *.pdf ../pdf/ 2> /dev/null
+cd ..
+rmdir new  2> /dev/null

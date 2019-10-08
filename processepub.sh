@@ -115,3 +115,6 @@ fi
 
 epub-rename.pl -r
 bookindex.pl -a -- 
+
+cd ..
+rmdir new  2> /dev/null
