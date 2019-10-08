@@ -29,7 +29,9 @@ mv -n *.lit books/rar 2> /dev/null
 
 # Unpack, delete known files and add new ones to index.
 cd books/rar
-bicapitalize.pl
+if type "bicapitalize.pl" > /dev/null; then
+    bicapitalize.pl
+fi
 for i in *.rar; do 
 if [ -e $i ]; then
     rar -o- x $i; 
@@ -37,7 +39,9 @@ fi
 done 
 rm *.rar 2> /dev/null
 
-bicapitalize.pl
+if type "bicapitalize.pl" > /dev/null; then
+    bicapitalize.pl
+fi
 
 if type "bookindex.pl" > /dev/null; then
     bookindex.pl -d
@@ -109,7 +113,9 @@ rmdir ../rar 2> /dev/null
 if [ -d ../broken ]; then
 rmdir ../broken
 fi
-epub-rename.pl -r
+if type "epub-rename.pl" > /dev/null; then
+    epub-rename.pl -r
+fi
 if type "bookindex.pl" > /dev/null; then
     bookindex.pl -a -- 
 fi

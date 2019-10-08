@@ -22,7 +22,9 @@ mv -n *.cbr books/rar 2> /dev/null
 mv -n *.cbz books/rar 2> /dev/null
  
 cd books/rar
-bicapitalize.pl
+if type "bicapitalize.pl" > /dev/null; then
+    bicapitalize.pl
+fi
 
 for i in *.cbz; do 
 if [ -e $i ]; then
@@ -33,7 +35,9 @@ if [ -e $i ]; then
     mkdir ${DIR}
     cd ${DIR}
     unzip ../$i
-    bicapitalize.pl
+    if type "bicapitalize.pl" > /dev/null; then
+        bicapitalize.pl
+    fi
     mmv ' - *' '#1'
     mmv '-*' '#1'
     for i in *; do 
@@ -65,12 +69,16 @@ if [ -e $i ]; then
     mkdir ${DIR}
     cd ${DIR}
     rar -o- x ../$i 
-    bicapitalize.pl
-    for i in *; do 
-    if [ -d $i ]; then
-	DIRDIR=$i
-	mv ${DIRDIR}/* .
+    if type "bicapitalize.pl" > /dev/null; then
         bicapitalize.pl
+    fi
+    for i in *; do 
+    if [ -d "$i" ]; then
+	DIRDIR="$i"
+	mv ${DIRDIR}/* .
+        if type "bicapitalize.pl" > /dev/null; then
+            bicapitalize.pl
+        fi
 	rmdir ${DIRDIR}
     fi
     done

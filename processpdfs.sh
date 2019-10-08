@@ -22,7 +22,9 @@ mv -n *.pdf books/new 2> /dev/null
 
 # Unpack, delete known files and add new ones to index.
 cd books/new
-bicapitalize.pl
+if type "bicapitalize.pl" > /dev/null; then
+    bicapitalize.pl
+fi
 mmv -- '-*' '#1' 2> /dev/null
 if type "bookindex.pl" > /dev/null; then
     bookindex.pl -d

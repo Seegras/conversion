@@ -1,11 +1,12 @@
 #!/bin/sh
 #
-# Author:  Peter Keel <seegras@discordia.ch>
-# Date:    20.10.2012
-# Version: 0.1
-# License: Public Domain
-# URL:     http://seegras.discordia.ch/Programs/
-#
+# Author:   Peter Keel <seegras@discordia.ch>
+# Date:     20.10.2012
+# Version:  0.1
+# License:  Public Domain
+# URL:      http://seegras.discordia.ch/Programs/
+# Requires: flip, ffmpeg, sed
+# 
 for i in *.ass ; do 
     ffmpeg -i "$i" "$(basename $i .ass).srt" ; 
 done

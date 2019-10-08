@@ -118,7 +118,7 @@ closedir(IN_DIR);
         }
     }
     if ($doocr && $docrop && $domerge) {
-        system ("/usr/bin/pdfjam --fitpaper 'true' --outfile $domerge *.pdf");
+        system ("pdfjam --fitpaper 'true' --outfile $domerge *.pdf");
     } elsif ($doocr && $domerge) {
         system ("pdfjam --outfile $domerge *.pdf") unless (-e "$domerge");
     }
