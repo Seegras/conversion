@@ -1,10 +1,11 @@
 #!/bin/sh
 #
-# Author:  Peter Keel <seegras@discordia.ch>
-# Date:    16.03.2014
-# Version: 0.1
-# License: Public Domain
-# URL:     http://seegras.discordia.ch/Programs/
+# Author:   Peter Keel <seegras@discordia.ch>
+# Date:     2014-03-16
+# Revision: 2019-10-08
+# Version:  0.2
+# License:  Public Domain
+# URL:      http://seegras.discordia.ch/Programs/
 #
 if ! command -v bicapitalize.pl bookindex.pl >/dev/null 2>&1; then
     echo >&2 "bicapitalize.pl and bookindex.pl are required"

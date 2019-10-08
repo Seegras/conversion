@@ -1,11 +1,11 @@
 #!/usr/bin/perl
 # 
-# Author:  Peter Keel <seegras@discordia.ch>
-# Date:    2014-04-06
-# Revised: 2019-10-07
-# Version: 0.3
-# License: Artistic License 2.0 or MIT License
-# URL:     http://seegras.discordia.ch/Programs/
+# Author:   Peter Keel <seegras@discordia.ch>
+# Date:     2014-04-06
+# Revision: 2019-10-07
+# Version:  0.3
+# License:  Artistic License 2.0 or MIT License
+# URL:      http://seegras.discordia.ch/Programs/
 #
 
 use Getopt::Long;

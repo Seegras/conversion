@@ -1,8 +1,9 @@
 #!/bin/sh
 #
 # Author:   Peter Keel <seegras@discordia.ch>
-# Date:     20.10.2012
-# Version:  0.1
+# Date:     2012-10-20
+# Revision: 2019-10-08
+# Version:  0.2
 # License:  Public Domain
 # URL:      http://seegras.discordia.ch/Programs/
 # Requires: flip, ffmpeg, sed
