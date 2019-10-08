@@ -7,6 +7,11 @@
 # URL:     http://seegras.discordia.ch/Programs/
 #
 
+if ! command -v bicapitalize.pl bookindex.pl >/dev/null 2>&1; then
+    echo >&2 "bicapitalize.pl and bookindex.pl are required"
+    exit 1
+fi
+
 # ensure directories exist
 if [ ! -d books ]; then
     mkdir books
@@ -22,9 +27,7 @@ mv -n *.cbr books/rar 2> /dev/null
 mv -n *.cbz books/rar 2> /dev/null
  
 cd books/rar
-if type "bicapitalize.pl" > /dev/null; then
-    bicapitalize.pl
-fi
+bicapitalize.pl
 
 for i in *.cbz; do 
 if [ -e $i ]; then
@@ -35,11 +38,9 @@ if [ -e $i ]; then
     mkdir ${DIR}
     cd ${DIR}
     unzip ../$i
-    if type "bicapitalize.pl" > /dev/null; then
-        bicapitalize.pl
-    fi
-    mmv ' - *' '#1'
-    mmv '-*' '#1'
+    bicapitalize.pl
+    mmv ' - *' '#1' 2>&1 > /dev/null
+    mmv '-*' '#1' 2>&1 > /dev/null
     for i in *; do 
     if [ -d $i ]; then
 	DIRDIR=$i
@@ -69,16 +70,12 @@ if [ -e $i ]; then
     mkdir ${DIR}
     cd ${DIR}
     rar -o- x ../$i 
-    if type "bicapitalize.pl" > /dev/null; then
-        bicapitalize.pl
-    fi
+    bicapitalize.pl
     for i in *; do 
     if [ -d "$i" ]; then
 	DIRDIR="$i"
 	mv ${DIRDIR}/* .
-        if type "bicapitalize.pl" > /dev/null; then
-            bicapitalize.pl
-        fi
+        bicapitalize.pl
 	rmdir ${DIRDIR}
     fi
     done

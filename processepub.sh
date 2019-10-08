@@ -1,4 +1,4 @@
-#!/bin/she
+#!/bin/sh
 #
 # Author:  Peter Keel <seegras@discordia.ch>
 # Date:    28.02.2010
@@ -6,6 +6,10 @@
 # License: Public Domain
 # URL:     http://seegras.discordia.ch/Programs/
 #
+if ! command -v bicapitalize.pl bookindex.pl epub-meta epub-rename.pl >/dev/null 2>&1; then
+    echo >&2 "bicapitalize.pl, bookindex.pl epub-meta and epub-rename.pl are required"
+    exit 1
+fi
 
 # ensure directories exist
 if [ ! -d books ]; then
@@ -29,9 +33,7 @@ mv -n *.lit books/rar 2> /dev/null
 
 # Unpack, delete known files and add new ones to index.
 cd books/rar
-if type "bicapitalize.pl" > /dev/null; then
-    bicapitalize.pl
-fi
+bicapitalize.pl
 for i in *.rar; do 
 if [ -e $i ]; then
     rar -o- x $i; 
@@ -39,14 +41,10 @@ fi
 done 
 rm *.rar 2> /dev/null
 
-if type "bicapitalize.pl" > /dev/null; then
-    bicapitalize.pl
-fi
+bicapitalize.pl
 
-if type "bookindex.pl" > /dev/null; then
-    bookindex.pl -d
-    bookindex.pl -a
-fi
+bookindex.pl -d
+bookindex.pl -a
 
 # Find broken files. 
 for i in *.epub; do 
@@ -113,9 +111,6 @@ rmdir ../rar 2> /dev/null
 if [ -d ../broken ]; then
 rmdir ../broken
 fi
-if type "epub-rename.pl" > /dev/null; then
-    epub-rename.pl -r
-fi
-if type "bookindex.pl" > /dev/null; then
-    bookindex.pl -a -- 
-fi
+
+epub-rename.pl -r
+bookindex.pl -a -- 

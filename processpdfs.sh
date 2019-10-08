@@ -6,6 +6,10 @@
 # License: Public Domain
 # URL:     http://seegras.discordia.ch/Programs/
 #
+if ! command -v bicapitalize.pl bookindex.pl >/dev/null 2>&1; then
+    echo >&2 "bicapitalize.pl and bookindex.pl are required"
+    exit 1
+fi
 
 # ensure directories exist
 if [ ! -d books ]; then
@@ -22,13 +26,9 @@ mv -n *.pdf books/new 2> /dev/null
 
 # Unpack, delete known files and add new ones to index.
 cd books/new
-if type "bicapitalize.pl" > /dev/null; then
-    bicapitalize.pl
-fi
-mmv -- '-*' '#1' 2> /dev/null
-if type "bookindex.pl" > /dev/null; then
-    bookindex.pl -d
-    bookindex.pl -a
-fi
+bicapitalize.pl
+mmv -- '-*' '#1' 2>&1 > /dev/null
+bookindex.pl -d
+bookindex.pl -a
 
 mv -n *.pdf ../pdf/ 2> /dev/null

@@ -7,3 +7,7 @@ Small programs to convert or modify contents of files
 * cp2ascii.pl -- DOS codepage 850 umlauts to ascii representation
 * cp2auml.pl -- DOS codepage 850 umlauts to html representation
 * processscans.pl -- process scans, sort for two sided, do OCR and make PDF
+* processcomics.sh -- convert cbr or cbz files to pdf
+* processepub.sh -- rename and process epub files
+* processpdfs.sh -- rename and process pdf file 
+* processsubs.sh -- convert ass files to srt and clean them up
