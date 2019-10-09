@@ -6,6 +6,7 @@ Small programs to convert or modify contents of files
 * apo2vcf.pl -- convert Siemens S65 addressbook to vcard
 * cp2ascii.pl -- DOS codepage 850 umlauts to ascii representation
 * cp2auml.pl -- DOS codepage 850 umlauts to html representation
+* fuckms.pl -- fix stupid Microsoft smartquotes
 * hex2ascii.pl -- stupid program that prints hexcodes as 8bit ascii
 * pdfocr.pl -- OCR any PDF files in a directory are not already OCR'ed,
 * processcomics.sh -- convert cbr or cbz files to pdf
