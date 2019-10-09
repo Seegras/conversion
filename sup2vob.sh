@@ -15,7 +15,7 @@ if ! command -v bdsup2sub++ >/dev/null 2>&1; then
 fi
 
 for i in *.sup; do 
-LANG3=`ls $i | cut -d "." -f 1 | rev | cut -c -3 | rev`
+LANG3=$(ls $i | cut -d "." -f 1 | rev | cut -c -3 | rev)
    case $LANG3 in
          bul)
 	     LANG2=bg
