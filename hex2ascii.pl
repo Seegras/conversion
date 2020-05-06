@@ -6,7 +6,7 @@
 # Date:     2005-08-30
 # Version:  0.1
 # License:  Public Domain
-# URL:      http://seegras.discordia.ch/Programs/
+# URL:      https://seegras.discordia.ch/Programs/
 #
 
 $var1 = $ARGV[0];

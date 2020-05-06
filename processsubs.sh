@@ -5,7 +5,7 @@
 # Revision: 2019-10-08
 # Version:  0.2
 # License:  Public Domain
-# URL:      http://seegras.discordia.ch/Programs/
+# URL:      https://seegras.discordia.ch/Programs/
 # Requires: flip, ffmpeg, sed
 # 
 
@@ -14,11 +14,11 @@ if ! command -v flip ffmpeg >/dev/null 2>&1; then
     exit 1
 fi
 
-for i in *.ass ; do 
-    ffmpeg -i "$i" "$(basename $i .ass).srt" ; 
+for FILE in ./*.ass ; do 
+    ffmpeg -i "${FILE}" "$( basename "${FILE}" .ass ).srt" ; 
 done
-flip -ub *.srt 2> /dev/null
-for i in *.srt; do sed -i "s#<font.*\">##g" $i; done 
-for i in *.srt; do sed -i "s#</font>##g" $i; done 
-for i in *.srt; do sed -i "s#<b>##g" $i; done 
-for i in *.srt; do sed -i "s#</b>##g" $i; done 
+flip -ub ./*.srt 2> /dev/null
+for FILE in ./*.srt; do sed -i "s#<font.*\">##g" "${FILE}"; done 
+for FILE in ./*.srt; do sed -i "s#</font>##g" "${FILE}"; done 
+for FILE in ./*.srt; do sed -i "s#<b>##g" "${FILE}"; done 
+for FILE in ./*.srt; do sed -i "s#</b>##g" "${FILE}"; done 

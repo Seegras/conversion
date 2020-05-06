@@ -5,7 +5,7 @@
 # Revision: 2019-10-08
 # Version:  0.2
 # License:  Public Domain
-# URL:      http://seegras.discordia.ch/Programs/
+# URL:      https://seegras.discordia.ch/Programs/
 #
 
 if ! command -v bicapitalize.pl bookindex.pl >/dev/null 2>&1; then
@@ -24,68 +24,68 @@ if [ ! -d books/rar ]; then
     mkdir books/rar
 fi
  
-mv -n *.cbr books/rar 2> /dev/null
-mv -n *.cbz books/rar 2> /dev/null
+mv -n ./*.cbr books/rar 2> /dev/null
+mv -n ./*.cbz books/rar 2> /dev/null
  
-cd books/rar
+cd books/rar || return
 bicapitalize.pl
 
-for i in *.cbz; do 
-if [ -e $i ]; then
-    DIR=`basename $i .cbz`
-    DIR=`echo ${DIR}|tr "." "_"`
-    DIR=`echo ${DIR}|sed 's/--/-/g'`
-    DIR=`echo ${DIR}|sed 's/-$//'`
-    mkdir ${DIR}
-    cd ${DIR}
-    unzip ../$i
+for CBZFILE in *.cbz; do 
+if [ -e "${CBZFILE}" ]; then
+    DIR=$( basename "${CBZFILE}" .cbz )
+    DIR=$( echo "${DIR}"|tr "." "_" )
+    DIR=$( echo "${DIR}"|sed 's/--/-/g' )
+    DIR=$( echo "${DIR}"|sed 's/-$//' )
+    mkdir "${DIR}"
+    cd "${DIR}" || return
+    unzip ../"${CBZFILE}"
     bicapitalize.pl
-    mmv ' - *' '#1' 2>&1 > /dev/null
-    mmv '-*' '#1' 2>&1 > /dev/null
-    for i in *; do 
-    if [ -d $i ]; then
-	DIRDIR=$i
-	mv ${DIRDIR}/* .
+    mmv ' - *' '#1' > /dev/null 2>&1
+    mmv '-*' '#1' > /dev/null 2>&1
+    for FILE in *; do 
+    if [ -d "${FILE}" ]; then
+	DIRDIR="${FILE}"
+	mv "${DIRDIR}"/* .
         bicapitalize.pl
-	rmdir ${DIRDIR}
+	rmdir "${DIRDIR}"
     fi
     done
     if [ -e Thumbs.db ]; then
 	rm Thumbs.db
     fi
-    for i in *.jpg; do 
-	convert -density 300 -units PixelsPerInch $i $i.jpg
-	mv $i.jpg $i
+    for JPGFILE in *.jpg; do 
+	convert -density 300 -units PixelsPerInch "${JPGFILE}" "${JPGFILE}".jpg
+	mv "${JPGFILE}".jpg "${JPGFILE}"
     done
-    pdfjam --outfile ../${DIR}.pdf  *.jpg
-    cd ..
+    pdfjam --outfile ../"${DIR}".pdf -- *.jpg
+    cd .. || return
 fi
 done 
 
-for i in *.cbr; do 
-if [ -e $i ]; then
-    DIR=`basename $i .cbr`
-    DIR=`echo ${DIR}|tr "." "_"`
-    DIR=`echo ${DIR}|sed 's/--/-/g'`
-    DIR=`echo ${DIR}|sed 's/-$//'`
-    mkdir ${DIR}
-    cd ${DIR}
-    rar -o- x ../$i 
+for CBRFILE in *.cbr; do 
+if [ -e "${CBRFILE}" ]; then
+    DIR=$( basename "${CBRFILE}" .cbr )
+    DIR=$( echo "${DIR}"|tr "." "_" )
+    DIR=$( echo "${DIR}"|sed 's/--/-/g' )
+    DIR=$( echo "${DIR}"|sed 's/-$//' )
+    mkdir "${DIR}"
+    cd "${DIR}" || return
+    rar -o- x ../"${CBRFILE}" 
     bicapitalize.pl
-    for i in *; do 
-    if [ -d "$i" ]; then
-	DIRDIR="$i"
-	mv ${DIRDIR}/* .
+    for FILE in *; do 
+    if [ -d "${FILE}" ]; then
+        DIRDIR="${FILE}"
+        mv "${DIRDIR}"/* .
         bicapitalize.pl
-	rmdir ${DIRDIR}
+        rmdir "${DIRDIR}"
     fi
     done
     if [ -e Thumbs.db ]; then
 	rm Thumbs.db
     fi
-    pdfjam --outfile ../${DIR}.pdf  *.jpg
-    cd ..
+    pdfjam --outfile ../"${DIR}".pdf -- *.jpg
+    cd .. || return
 fi
 done 
 
-mv *.pdf ../comics/
+mv ./*.pdf ../comics/

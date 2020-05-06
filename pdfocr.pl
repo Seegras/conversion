@@ -7,7 +7,7 @@
 # Revision: 2019-10-09
 # Version:  0.2
 # License:  Artistic License 2.0 or MIT License
-# URL:      http://seegras.discordia.ch/Programs/
+# URL:      https://seegras.discordia.ch/Programs/
 #
 
 use Getopt::Long;

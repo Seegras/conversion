@@ -4,7 +4,7 @@
 # Date:    2011-02-27
 # Version: 0.1
 # License: Public Domain
-# URL:     http://seegras.discordia.ch/Programs/
+# URL:     https://seegras.discordia.ch/Programs/
 #
 # Change this to suit your needs
 APKTOOL="apktool";
@@ -15,8 +15,8 @@ then
 else 
     ARGS=$*
 fi
-echo Unpacking ${ARGS}
-for i in ${ARGS}; do 
-${APKTOOL} decode $i `basename $i .apk`;
+echo "Unpacking ${ARGS}"
+for FILE in ${ARGS}; do 
+${APKTOOL} decode "${FILE}" "$( basename "${FILE}" .apk )";
 done
 

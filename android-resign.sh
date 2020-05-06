@@ -4,7 +4,7 @@
 # Date:    2011-20-27
 # Version: 0.1
 # License: Public Domain
-# URL:     http://seegras.discordia.ch/Programs/
+# URL:     https://seegras.discordia.ch/Programs/
 # Depends: apktool, android-SDK
 #
 # This script takes a android-project-directories as input (such as the
@@ -45,16 +45,16 @@ echo "(Re-)Signing ${ARGS}";
 for i in ${ARGS}; do
     FULLNAME=$i;
     SHORTNAME=${i%-[0-9.]*};
-    ${APKTOOL} build ${FULLNAME} ${FULLNAME}-unaligned.apk
-    if [ -e ${SHORTNAME}.keystore ];
+    "${APKTOOL}" build "${FULLNAME}" "${FULLNAME}"-unaligned.apk
+    if [ -e "${SHORTNAME}".keystore ];
     then 
-	PASS=`cat ${SHORTNAME}.storekey`
+	PASS="$( cat "${SHORTNAME}".storekey )"
     else 
-	PASS=`pwgen -s 16 1`;
-        echo "${PASS}" > ${SHORTNAME}.storekey;
-	keytool -genkey -v -keystore ${SHORTNAME}.keystore -alias ${SHORTNAME} -storepass ${PASS} -keypass ${PASS} -dname "${DN}" -keyalg RSA -keysize 2048 -validity 10000
+	PASS="$( pwgen -s 16 1 )";
+        echo "${PASS}" > "${SHORTNAME}".storekey;
+	keytool -genkey -v -keystore "${SHORTNAME}".keystore -alias "${SHORTNAME}" -storepass "${PASS}" -keypass "${PASS}" -dname "${DN}" -keyalg RSA -keysize 2048 -validity 10000
     fi
-    jarsigner -verbose -keystore ${SHORTNAME}.keystore -keypass ${PASS} -storepass ${PASS} ${FULLNAME}-unaligned.apk ${SHORTNAME}
-    zipalign -v 4 ${FULLNAME}-unaligned.apk ${FULLNAME}.apk
-    rm ${FULLNAME}-unaligned.apk
+    jarsigner -verbose -keystore "${SHORTNAME}".keystore -keypass "${PASS}" -storepass "${PASS}" "${FULLNAME}"-unaligned.apk "${SHORTNAME}"
+    zipalign -v 4 "${FULLNAME}"-unaligned.apk "${FULLNAME}".apk
+    rm "${FULLNAME}"-unaligned.apk
 done;

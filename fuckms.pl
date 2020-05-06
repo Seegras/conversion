@@ -7,7 +7,7 @@
 # Revision: 2008-12-13
 # Version:  1.0
 # License:  Public Domain
-# URL:      http://seegras.discordia.ch/Programs/
+# URL:      https://seegras.discordia.ch/Programs/
 # 
 
 die "Usage: $0 filename\n"       unless($ARGV[0]);

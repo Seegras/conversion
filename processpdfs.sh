@@ -5,7 +5,7 @@
 # Revision: 2019-10-08
 # Version:  0.2
 # License:  Public Domain
-# URL:      http://seegras.discordia.ch/Programs/
+# URL:      https://seegras.discordia.ch/Programs/
 #
 if ! command -v bicapitalize.pl bookindex.pl >/dev/null 2>&1; then
     echo >&2 "bicapitalize.pl and bookindex.pl are required"
@@ -23,15 +23,15 @@ if [ ! -d books/pdf ]; then
     mkdir books/pdf
 fi
 
-mv -n *.pdf books/new 2> /dev/null
+mv -n ./*.pdf books/new 2> /dev/null
 
 # Unpack, delete known files and add new ones to index.
-cd books/new
+cd books/new || return
 bicapitalize.pl
-mmv -- '-*' '#1' 2>&1 > /dev/null
+mmv -- '-*' '#1'> /dev/null 2>&1
 bookindex.pl -d
 bookindex.pl -a
 
-mv -n *.pdf ../pdf/ 2> /dev/null
-cd ..
+mv -n ./*.pdf ../pdf/ 2> /dev/null
+cd .. || return
 rmdir new  2> /dev/null
