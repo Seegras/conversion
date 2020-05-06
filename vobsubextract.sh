@@ -26,8 +26,8 @@ fi
 case "$filename" in 
     *.mkv )
 filename_no_ext=$(basename "$filename" .mkv)
-awk_exp='{ gsub("S_TEXT/UTF8","srt",$3); gsub("S_HDMV/PGS","sup",$3); s = "0"$1; print $1":" fnoext "-"substr(s, 1 + length(s) - 2)"-"$2"."$3 }'
-mkvmerge -J "${filename}" | jq -r '.tracks | map((.id | tostring) + " " + .properties.language + " " + .properties.codec_id) |  join("\n")' | grep -E "S_HDMV/PGS|S_TEXT/UTF8" | awk -v fnoext="$filename_no_ext" -F ' ' "${awk_exp}" | xargs mkvextract tracks "${filename}"
+awk_exp='{ gsub("S_TEXT/UTF8","srt",$3); gsub("S_TEXT/ASS","ass",$3); gsub("S_HDMV/PGS","sup",$3); s = "0"$1; print $1":" fnoext "-"substr(s, 1 + length(s) - 2)"-"$2"."$3 }'
+mkvmerge -J "${filename}" | jq -r '.tracks | map((.id | tostring) + " " + .properties.language + " " + .properties.codec_id) |  join("\n")' | grep -E "S_HDMV/PGS|S_TEXT/UTF8|S_TEXT/ASS" | awk -v fnoext="$filename_no_ext" -F ' ' "${awk_exp}" | xargs mkvextract tracks "${filename}"
     ;; 
     *.mp4 )
 filename_no_ext=$(basename "$filename" .mp4)
