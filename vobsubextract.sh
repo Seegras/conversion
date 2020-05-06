@@ -1,13 +1,14 @@
 #!/bin/sh
-#
-# extracts subtitles from movie (mkv, mp4, ogm) files
 # 
-# Author:   Peter Keel <seegras@discordia.ch>
-# Date:     ?
-# Revision: 2019-10-08
-# Version:  0.1
-# License:  Public Domain
-# URL:      http://seegras.discordia.ch/Programs/
+# vobsubextract.sh -- extracts actually all kinds of subtitles from movie
+# files. Notably SUP, VOBSUB/IDX and SRT. If possible fixes them to .srt;
+# otherwise leaves idx/sub files lying around for further processing. 
+# 
+# Author:  Peter Keel <seegras@discordia.ch>
+# Date:    
+# Version: 0.2
+# License: Public Domain
+# URL:     https://seegras.discordia.ch/Programs/
 #
 
 if ! command -v mkvmerge mkvextract >/dev/null 2>&1; then
@@ -24,26 +25,23 @@ fi
 
 case "$filename" in 
     *.mkv )
-        filename_no_ext=$(basename "$filename" .mkv)
-        sed_exp="s/Track\sID\s([0-9]{1,3}):.*/\1:'$filename_no_ext'-\1/"
-        mkvmerge -i "${filename}" | grep subtitles | sed -r "${sed_exp}" | xargs mkvextract tracks "${filename}"
-        mkvmerge -J v.mkv | jq -r '
-  .tracks |
-  map((.id | tostring) + " " + .properties.language + " " + .codec) |
-  join("\n")
-'
+filename_no_ext=$(basename "$filename" .mkv)
+awk_exp='{ gsub("S_TEXT/UTF8","srt",$3); gsub("S_HDMV/PGS","sup",$3); s = "0"$1; print $1":" fnoext "-"substr(s, 1 + length(s) - 2)"-"$2"."$3 }'
+mkvmerge -J "${filename}" | jq -r '.tracks | map((.id | tostring) + " " + .properties.language + " " + .properties.codec_id) |  join("\n")' | egrep "S_HDMV/PGS|S_TEXT/UTF8" | awk -v fnoext=$filename_no_ext -F ' ' "${awk_exp}" | xargs mkvextract tracks "${filename}"
     ;; 
     *.mp4 )
-        filename_no_ext=$(basename "$filename" .mp4)
-        ffmpeg -i "$filename" -map 0:s:0 "$filename_no_ext.srt"
-        flip -ub "$filename_no_ext.srt"
-        sed -i 's/<[^>]\+>/ /g' "$filename_no_ext.srt"
+filename_no_ext=$(basename "$filename" .mp4)
+ffmpeg -i "$filename" -map 0:s:0 "$filename_no_ext.srt"
+flip -ub "$filename_no_ext.srt"
+#sed -n -i '/^$/!{s/<[^>]*>//g;p;}' "$filename_no_ext.srt"
+sed -i 's/<[^>]\+>/ /g' "$filename_no_ext.srt"
     ;;
     *.ogm )
-        filename_no_ext=$(basename "$filename" .ogm)
-        ffmpeg -i "$filename" -map 0:s:0 "$filename_no_ext.srt"
-        flip -ub "$filename_no_ext.srt"
-        sed -i 's/<[^>]\+>/ /g' "$filename_no_ext.srt"
+filename_no_ext=$(basename "$filename" .ogm)
+ffmpeg -i "$filename" -map 0:s:0 "$filename_no_ext.srt"
+flip -ub "$filename_no_ext.srt"
+#sed -n -i '/^$/!{s/<[^>]*>//g;p;}' "$filename_no_ext.srt"
+sed -i 's/<[^>]\+>/ /g' "$filename_no_ext.srt"
     ;;
 esac
 
