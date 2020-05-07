@@ -5,18 +5,20 @@
 # Author:   Peter Keel <seegras@discordia.ch>
 # Date:     ?
 # Revision: 2008-12-13
-# Version:  1.0
+# Revision: 2020-05-06
+# Version:  1.1
 # License:  Public Domain
 # URL:      https://seegras.discordia.ch/Programs/
 # 
+use strict;
 
 die "Usage: $0 filename\n"       unless($ARGV[0]);
 
-foreach $file_name (@ARGV) {
-    $temp_file="/tmp/$file_name";
-    open(IN_FILE,"<$file_name") || die "Cannot open $file_name for input\n";
-    open(TEMP,">$temp_file");
-    while(<IN_FILE>){
+foreach my $file_name (@ARGV) {
+my $temp_file="/tmp/$file_name";
+    open(my $in_file,"<","$file_name") || die "Cannot open $file_name for input\n";
+    open(my $tmp_file,">","$temp_file");
+    while(<$in_file>){
         # use this if already converted to UTF8
         #$_ =~ s/\xC2\x97/ - /g;        # dash
         #$_ =~ s/\xC2\x95/\xC2\xB7/g;        # middle dot
@@ -30,9 +32,9 @@ foreach $file_name (@ARGV) {
         $_ =~ s/\227/ - /g;       # dash
         $_ =~ s/\014//g;          # dunno 
         $_ =~ s/\267/-/g;         # might be a dash
-        print TEMP ($_);
+        print $tmp_file ($_);
     }
-    close IN;
-    close TEMP;
+    close $in_file;
+    close $tmp_file;
     system ("mv $temp_file $file_name");
 }

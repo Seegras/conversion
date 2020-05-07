@@ -1,17 +1,19 @@
 #!/usr/bin/perl
 #
 # Author: Peter Keel <seegras@discordia.ch>
-# Version:  1.1
+# Version:  1.2
 # Revision: 2009-09-09
+# Revision: 2020-05-06
 # License:  Public Domain
 # 
 # Changes DOS codepage 850 umlauts to 7bit ascii representations
 # 
+use strict;
 
 die "Usage: cp2ascii.pl filename\n"       unless($ARGV[0]);
 
-open(IN_FILE,"<$ARGV[0]") || die "Cannot open $ARGV[0] for input\n";
-while(<IN_FILE>){
+open(my $in_file,"<", "$ARGV[0]") || die "Cannot open $ARGV[0] for input\n";
+while(<$in_file>){
 	$_ =~ s/Ñ/ae/;
 	$_ =~ s/Å/ue/;
 	$_ =~ s/î/oe/;
@@ -74,5 +76,5 @@ while(<IN_FILE>){
       print($_);
    }
 
-close IN;
+close $in_file;
 

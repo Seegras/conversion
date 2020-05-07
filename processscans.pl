@@ -3,19 +3,26 @@
 # Author:   Peter Keel <seegras@discordia.ch>
 # Date:     2014-04-06
 # Revision: 2019-10-07
-# Version:  0.3
+# Revision: 2020-05-06
+# Version:  0.4
 # License:  Artistic License 2.0 or MIT License
 # URL:      https://seegras.discordia.ch/Programs/
 #
-
+use strict;
 use Getopt::Long;
 use Pod::Usage;
 
 # Config Options
-# $docrop = 1;
-# $doocr = 1;
-$debug = 1;
-@files = ();
+my $docrop;
+my $doocr;
+my $debug;
+my $doreverse;
+my $domerge;
+my $dodelete;
+my $dname;
+my $needshelp;
+my $pdfname;
+my @files = ();
 
 &Getopt::Long::Configure( 'pass_through', 'no_autoabbrev', 'bundling');
 &Getopt::Long::GetOptions(
@@ -34,7 +41,7 @@ if (!$ARGV[0]) {
 }
 
 if ($needshelp) {
-pod2usage(1);
+    pod2usage(1);
 }
 
 if (defined $docrop && ($docrop eq "")) {
@@ -76,13 +83,13 @@ sub oddevenreverse {
     @files = @numbers;
 }
 
-opendir(IN_DIR, $dname) || die "I am unable to access that directory...Sorry";
-@dir_contents = readdir(IN_DIR);
-closedir(IN_DIR);
+opendir(my $in_dir, $dname) || die "I am unable to access that directory...Sorry";
+my @dir_contents = readdir($in_dir);
+closedir($in_dir);
 
 @dir_contents = sort(@dir_contents);
-    foreach $filename (@dir_contents) {
-    ($name,$suffix) = $filename =~ /^(.*)(\.[^.]*)$/;
+    foreach my $filename (@dir_contents) {
+    (my $name,my $suffix) = $filename =~ /^(.*)(\.[^.]*)$/;
         if ($filename ne ".." and $filename ne "." and ($suffix eq ".png" or $suffix eq ".jpg" )) {
             push @files, $filename;
         }
@@ -92,11 +99,11 @@ closedir(IN_DIR);
     if ($doreverse) {
         oddevenreverse();
     }
-    $page=100;
-    foreach $file (@files) {
+    my $page=100;
+    foreach my $file (@files) {
         $page+=1;
-        ($oldname,$oldsuffix) = $file =~ /^(.*)(\.[^.]*)$/;
-        $newname= $page . "-" . $oldname . $oldsuffix;
+        (my $oldname,my $oldsuffix) = $file =~ /^(.*)(\.[^.]*)$/;
+        my $newname= $page . "-" . $oldname . $oldsuffix;
         if ($doreverse) {
             $pdfname= $page . "-" . $oldname;
         } else {

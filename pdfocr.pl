@@ -5,19 +5,27 @@
 # Author:   Peter Keel <seegras@discordia.ch>
 # Date:     2014-04-07
 # Revision: 2019-10-09
-# Version:  0.2
+# Revision: 2020-05-06
+# Version:  0.3
 # License:  Artistic License 2.0 or MIT License
 # URL:      https://seegras.discordia.ch/Programs/
 #
-
+use strict;
 use Getopt::Long;
 use Pod::Usage;
 use File::Temp qw/ tempdir /;
 
 # Config Options
-# $debug = 0;
-$language="eng";
-@files = ();
+my $debug = 0;
+my $language="eng";
+my @files = ();
+my $needshelp;
+my $doover;
+my $dname;
+my $name;
+my $suffix;
+my $dir;
+my $file;
 
 &Getopt::Long::Configure( 'pass_through', 'no_autoabbrev');
 &Getopt::Long::GetOptions(
@@ -41,12 +49,12 @@ sub ocrfile {
         if ($debug) { $dir = tempdir( ); }
         else  { $dir = tempdir( CLEANUP => 1 ); }
         system ("/usr/bin/pdfimages -j -png \"$file\" $dir/out");
-        opendir(SCAN_DIR, $dir) || die "I am unable to access that directory...Sorry";
-        @scandir_contents = readdir(SCAN_DIR);
-        closedir(SCAN_DIR);
+        opendir(my $scan_dir, $dir) || die "I am unable to access that directory...Sorry";
+        my @scandir_contents = readdir($scan_dir);
+        closedir($scan_dir);
         @scandir_contents = sort(@scandir_contents);
-        foreach $scanfilename (@scandir_contents) {
-            ($scanname,$scansuffix) = $scanfilename =~ /^(.*)(\.[^.]*)$/;
+        foreach my $scanfilename (@scandir_contents) {
+            (my $scanname,my $scansuffix) = $scanfilename =~ /^(.*)(\.[^.]*)$/;
             if ($scanfilename ne ".." and $scanfilename ne "." and ($scansuffix eq ".jpg" or $scansuffix eq ".png")) {
                 system ("/usr/bin/tesseract -l $language \"$dir/$scanfilename\" \"$dir/$scanname\" pdf");
             }
@@ -54,12 +62,12 @@ sub ocrfile {
         system ("/usr/bin/pdfjam --outfile $name-2.pdf $dir/*.pdf");
 }
 
-opendir(IN_DIR, $dname) || die "I am unable to access that directory...Sorry";
-@dir_contents = readdir(IN_DIR);
-closedir(IN_DIR);
+opendir(my $in_dir, $dname) || die "I am unable to access that directory...Sorry";
+my @dir_contents = readdir($in_dir);
+closedir($in_dir);
 
 @dir_contents = sort(@dir_contents);
-    foreach $filename (@dir_contents) {
+    foreach my $filename (@dir_contents) {
     ($name,$suffix) = $filename =~ /^(.*)(\.[^.]*)$/;
         if ($filename ne ".." and $filename ne "." and ($suffix eq ".pdf")) {
             if ($debug) { print "$filename\n" };
@@ -68,21 +76,21 @@ closedir(IN_DIR);
     }
     @files = sort @files;
 
-foreach $file (@files) {
-    $ocrd=0;
+foreach my $file (@files) {
+    my $ocrd=0;
     if ($debug) { print "$file\n" };
-    open PDF, "/usr/bin/pdftotext -raw -nopgbrk -q \"$file\" - 2>/dev/null |"
+    open (my $pdf, "<","/usr/bin/pdftotext -raw -nopgbrk -q \"$file\" - 2>/dev/null |")
         or die "error opening pdf \"$file\"\n";
-    while (<PDF>) {
+    while (<$pdf>) {
         if ($_ ne '') {
             $ocrd=1;
         }
     }
-    close PDF;
+    close $pdf;
 
     if (!$ocrd) {
         print "$file\n";
-        $tempmeta = $name . ".meta"; 
+        my $tempmeta = $name . ".meta"; 
         system ("/usr/bin/pdftk \"$file\" dump_data output \"$tempmeta\" uncompress");
         ocrfile();
         system ("/usr/bin/pdftk \"$name-2.pdf\" update_info \"$tempmeta\" output \"$name-3.pdf\"");

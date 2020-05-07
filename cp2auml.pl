@@ -1,17 +1,19 @@
 #!/usr/bin/perl
 #
 # Author: Peter Keel <seegras@discordia.ch>
-# Version:  1.1
+# Version:  1.2
 # Revision: 2005-08-30
+# Revision: 2020-05-06
 # License:  Public Domain
 # 
 # Changes DOS codepage 850 umlauts to HTML-Umlauts
 # 
+use strict;
 
 die "Usage: cp2auml.pl filename\n"       unless($ARGV[0]);
 
-open(IN_FILE,"<$ARGV[0]") || die "Cannot open $ARGV[0] for input\n";
-while(<IN_FILE>){
+open(my $in_file,"<","$ARGV[0]") || die "Cannot open $ARGV[0] for input\n";
+while(<$in_file>){
 	$_ =~ s/Ñ/\&auml\;/;
 	$_ =~ s/Å/\&uuml\;/;
 	$_ =~ s/î/\&ouml\;/;
@@ -116,5 +118,5 @@ while(<IN_FILE>){
       print($_);
    }
 
-close IN;
+close $in_file;
 

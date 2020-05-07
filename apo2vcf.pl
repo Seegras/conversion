@@ -1,10 +1,11 @@
 #!/usr/bin/perl
 #
 # Author:  Peter Keel <seegras@discordia.ch>
-# Date:    2010-02-28
-# Version: 0.1
-# License: Public Domain
-# URL:     https://seegras.discordia.ch/Programs/
+# Date:     2010-02-28
+# Revision: 2020-05-06
+# Version:  0.2
+# License:  Public Domain
+# URL:      https://seegras.discordia.ch/Programs/
 #
 # The Siemens S65 cellphone behaves very uncooperative when it comes to 
 # reading out/syncing its addressbook. It's totally impossible via USB,
@@ -20,48 +21,56 @@
 # 
 # Usage: apo2vcf <files> 
 #
-
+use strict;
 use IO::Seekable qw(SEEK_SET);
 use Switch;
 
 die "usage: apo2vcf <files>\n" unless($ARGV[0]);
 
-$debug = 0;
+my $debug = 0;
 
 foreach my $file (@ARGV) {
     if ( -e $file ) {  # double check existence
-$mobileno = ""; 
-$homeno = "";
-$officeno = ""; 
-$groupnum = "";
-$firstname = ""; 
-$lastname = "";
-$email = "";
+my $mobileno = ""; 
+my $homeno = "";
+my $officeno = ""; 
+my $groupnum = "";
+my $firstname = ""; 
+my $lastname = "";
+my $email = "";
 
-$buffer = "";
-open(FILE, "<$file") or die "can't open $file: $!";
+my $buffer = "";
+my $numrecs;
+my $group;
 
-seek(FILE, 0x05, 0) or die "seek:$!";
-read(FILE, $buffer, 1);
+open(my $in_file, "<", "$file") or die "can't open $file: $!";
+
+seek($in_file, 0x05, 0) or die "seek:$!";
+read($in_file, $buffer, 1);
 $numrecs = unpack 'c', $buffer;
 if ($debug) { printf "NUM: $numrecs\n"; }
 
 while ( $numrecs != 0 ) {
-$rec1len = 0; 
-$rec1len2 = 0;
-$rec2len1 = 0;
-$nullrec = 0;
-$isname = "";
-$isnumber = "";
-$isgroup = "";
-$islastname = "";
-$isfirstname = "";
-$ismobileno = "";
-$isofficeno = ""; 
-$ishomeno = "";
-$isgroup = "";
+my $rec1len = 0; 
+my $rec1len2 = 0;
+my $rec2len1 = 0;
+my $nullrec = 0;
+my $isname = "";
+my $isnumber = "";
+my $isgroup = "";
+my $islastname = "";
+my $isfirstname = "";
+my $ismobileno = "";
+my $isofficeno = ""; 
+my $ishomeno = "";
+my $isgroup = "";
 
-read(FILE, $buffer, 1);
+my $rec1; 
+my $rec1cont; 
+my $isemail;
+my $num1;
+
+read($in_file, $buffer, 1);
 $rec1 = unpack 'c', $buffer;
 switch ($rec1) {
     case 35	{ $isname=1; $islastname=1; }
@@ -74,17 +83,17 @@ switch ($rec1) {
 }
 if ($isname) {
     while ( $rec1len == 0) {
-	read(FILE, $buffer, 1);
+	read($in_file, $buffer, 1);
 	$rec1len = unpack 'cX', $buffer;
     }
     if ($debug) { printf "(LEN1: $rec1len) "; }
     while ( $rec1len2 == 0) {
-        read(FILE, $buffer, 1);
+        read($in_file, $buffer, 1);
 	$rec1len2 = unpack 'cX', $buffer;
     }
     if ($debug) { printf "(LEN2: $rec1len2) "; }
 
-    read(FILE, $buffer, $rec1len-1);
+    read($in_file, $buffer, $rec1len-1);
     $rec1cont = unpack 'A*', $buffer;
     $rec1cont =~ s/\x0+//g;
 
@@ -105,17 +114,17 @@ if ($isname) {
 
     if ($isnumber) {
 	while ( $nullrec == 0) {
-	    read(FILE, $buffer, 1); #discard
+	    read($in_file, $buffer, 1); #discard
 	    $nullrec = unpack 'cX', $buffer;
 	}
 	#$ = unpack 'cX', $buffer;
-	read(FILE, $buffer, 1); # discard
-	read(FILE, $buffer, 1); 
+	read($in_file, $buffer, 1); # discard
+	read($in_file, $buffer, 1); 
 	$rec2len1 = unpack 'cX', $buffer;
 	if ($debug) { printf "NUMLEN: $rec2len1\n"; }
-	read(FILE, $buffer, 1); # discard
+	read($in_file, $buffer, 1); # discard
 	while ($rec2len1+1 != 0) {
-	    read(FILE, $buffer, 1);
+	    read($in_file, $buffer, 1);
 	    $num1 = unpack 'h2', $buffer;
 	    $num1 =~ s/(\d)([a-f])/$1/;  
 	    if ($debug) { printf "NUM: $num1\n"; }
@@ -127,15 +136,15 @@ if ($isname) {
 	$numrecs = --$numrecs; 
     }
     if ($isgroup) {
-	read(FILE, $buffer, 3); #discard
-	read(FILE, $buffer, 1);
+	read($in_file, $buffer, 3); #discard
+	read($in_file, $buffer, 1);
 	$groupnum = unpack 'c', $buffer;
 	if ($debug) { printf "$groupnum\n"; }
 	$numrecs = --$numrecs; 
     }
 }
 
-        close FILE;
+        close $in_file;
 
 	switch ($groupnum) {
 	    case 1	{ $group="VIP"; }
