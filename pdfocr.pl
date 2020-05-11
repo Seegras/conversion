@@ -79,7 +79,7 @@ closedir($in_dir);
 foreach my $file (@files) {
     my $ocrd=0;
     if ($debug) { print "$file\n" };
-    open (my $pdf, "<","/usr/bin/pdftotext -raw -nopgbrk -q \"$file\" - 2>/dev/null |")
+    open (my $pdf, "-|","/usr/bin/pdftotext -raw -nopgbrk -q \"$file\" - 2>/dev/null")
         or die "error opening pdf \"$file\"\n";
     while (<$pdf>) {
         if ($_ ne '') {
