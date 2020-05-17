@@ -3,7 +3,8 @@
 # Author:   Peter Keel <seegras@discordia.ch>
 # Date:     2012-10-20
 # Revision: 2019-10-08
-# Version:  0.2
+# Revision: 2020-05-17
+# Version:  0.3
 # License:  Public Domain
 # URL:      https://seegras.discordia.ch/Programs/
 # Requires: flip, ffmpeg, sed
@@ -19,6 +20,9 @@ for FILE in ./*.ass ; do
 done
 for FILE in ./*.vtt ; do 
     ffmpeg -i "${FILE}" "$( basename "${FILE}" .vtt ).srt" ; 
+done
+for FILE in ./*.ssa ; do 
+    ffmpeg -i "${FILE}" "$( basename "${FILE}" .ssa ).srt" ; 
 done
 flip -ub ./*.srt 2> /dev/null
 for FILE in ./*.srt; do sed -i "s#<font.*\">##g" "${FILE}"; done 
