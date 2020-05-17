@@ -17,6 +17,9 @@ fi
 for FILE in ./*.ass ; do 
     ffmpeg -i "${FILE}" "$( basename "${FILE}" .ass ).srt" ; 
 done
+for FILE in ./*.vtt ; do 
+    ffmpeg -i "${FILE}" "$( basename "${FILE}" .vtt ).srt" ; 
+done
 flip -ub ./*.srt 2> /dev/null
 for FILE in ./*.srt; do sed -i "s#<font.*\">##g" "${FILE}"; done 
 for FILE in ./*.srt; do sed -i "s#</font>##g" "${FILE}"; done 
