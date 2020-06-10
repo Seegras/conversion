@@ -3,8 +3,7 @@
 # Author:   Peter Keel <seegras@discordia.ch>
 # Date:     2012-10-20
 # Revision: 2019-10-08
-# Revision: 2020-05-17
-# Version:  0.3
+# Version:  0.2
 # License:  Public Domain
 # URL:      https://seegras.discordia.ch/Programs/
 # Requires: flip, ffmpeg, sed
@@ -16,16 +15,39 @@ if ! command -v flip ffmpeg >/dev/null 2>&1; then
 fi
 
 for FILE in ./*.ass ; do 
-    ffmpeg -i "${FILE}" "$( basename "${FILE}" .ass ).srt" ; 
+    if [ -f ${FILE} ]; then
+        ffmpeg -i "${FILE}" "$( basename "${FILE}" .ass ).srt" ; 
+    fi
 done
 for FILE in ./*.vtt ; do 
-    ffmpeg -i "${FILE}" "$( basename "${FILE}" .vtt ).srt" ; 
-done
-for FILE in ./*.ssa ; do 
-    ffmpeg -i "${FILE}" "$( basename "${FILE}" .ssa ).srt" ; 
+    if [ -f ${FILE} ]; then
+        ffmpeg -i "${FILE}" "$( basename "${FILE}" .vtt ).srt" ; 
+    fi
 done
 flip -ub ./*.srt 2> /dev/null
 for FILE in ./*.srt; do sed -i "s#<font.*\">##g" "${FILE}"; done 
 for FILE in ./*.srt; do sed -i "s#</font>##g" "${FILE}"; done 
 for FILE in ./*.srt; do sed -i "s#<b>##g" "${FILE}"; done 
 for FILE in ./*.srt; do sed -i "s#</b>##g" "${FILE}"; done 
+mmv '?_*.srt' '0#1_#2.srt' > /dev/null 2>&1
+mmv '*_Arabic.srt' '#1-ara.srt'  > /dev/null 2>&1
+mmv '*_Chinese.srt' '#1-chi.srt'  > /dev/null 2>&1
+mmv '*_Bokmal.srt' '#1-nor.srt'  > /dev/null 2>&1
+mmv '*_Danish.srt' '#1-dan.srt'  > /dev/null 2>&1
+mmv '*_Dutch.srt' '#1-dut.srt'  > /dev/null 2>&1
+mmv '*_English.srt' '#1-eng.srt'  > /dev/null 2>&1
+mmv '*_Finnish.srt' '#1-fin.srt'  > /dev/null 2>&1
+mmv '*_French.srt' '#1-fre.srt'  > /dev/null 2>&1
+mmv '*_German.srt' '#1-ger.srt'  > /dev/null 2>&1
+mmv '*_Greek.srt' '#1-gre.srt'  > /dev/null 2>&1
+mmv '*_Hebrew.srt' '#1-heb.srt'  > /dev/null 2>&1
+mmv '*_Italian.srt' '#1-ita.srt'  > /dev/null 2>&1
+mmv '*_Japanese.srt' '#1-jpn.srt'  > /dev/null 2>&1
+mmv '*_Korean.srt' '#1-kor.srt'  > /dev/null 2>&1
+mmv '*_Polish.srt' '#1-pol.srt'  > /dev/null 2>&1
+mmv '*_Portuguese.srt' '#1-por.srt'  > /dev/null 2>&1
+mmv '*_Romanian.srt' '#1-rum.srt'  > /dev/null 2>&1
+mmv '*_Spanish.srt' '#1-spa.srt'  > /dev/null 2>&1
+mmv '*_Swedish.srt' '#1-swe.srt'  > /dev/null 2>&1
+mmv '*_Thai.srt' '#1-tha.srt'  > /dev/null 2>&1
+mmv '*_Turkish.srt' '#1-tur.srt'  > /dev/null 2>&1
