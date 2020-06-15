@@ -33,6 +33,7 @@ mmv '?_*.srt' '0#1_#2.srt' > /dev/null 2>&1
 mmv '*_Arabic.srt' '#1-ara.srt'  > /dev/null 2>&1
 mmv '*_Chinese.srt' '#1-chi.srt'  > /dev/null 2>&1
 mmv '*_Bokmal.srt' '#1-nor.srt'  > /dev/null 2>&1
+mmv '*_Bulgarian.srt' '#1-bul.srt'  > /dev/null 2>&1
 mmv '*_Danish.srt' '#1-dan.srt'  > /dev/null 2>&1
 mmv '*_Dutch.srt' '#1-dut.srt'  > /dev/null 2>&1
 mmv '*_English.srt' '#1-eng.srt'  > /dev/null 2>&1
