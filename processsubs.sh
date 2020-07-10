@@ -47,7 +47,7 @@ mmv '*_Hebrew.srt' '#1-heb.srt'  > /dev/null 2>&1
 mmv '*_Hungarian.srt' '#1-hun.srt'  > /dev/null 2>&1
 mmv '*_Italian.srt' '#1-ita.srt'  > /dev/null 2>&1
 mmv '*_Indonesian.srt' '#1-ind.srt'  > /dev/null 2>&1
-mmv '*_Latvian.srt' '#1-lat.srt'  > /dev/null 2>&1
+mmv '*_Latvian.srt' '#1-lav.srt'  > /dev/null 2>&1
 mmv '*_Lithuanian.srt' '#1-lit.srt'  > /dev/null 2>&1
 mmv '*_Japanese.srt' '#1-jpn.srt'  > /dev/null 2>&1
 mmv '*_Korean.srt' '#1-kor.srt'  > /dev/null 2>&1
