@@ -38,6 +38,7 @@ mmv '*_Bulgarian.srt' '#1-bul.srt'  > /dev/null 2>&1
 mmv '*_Danish.srt' '#1-dan.srt'  > /dev/null 2>&1
 mmv '*_Dutch.srt' '#1-dut.srt'  > /dev/null 2>&1
 mmv '*_English.srt' '#1-eng.srt'  > /dev/null 2>&1
+mmv '*_Estonian.srt' '#1-est.srt'  > /dev/null 2>&1
 mmv '*_Finnish.srt' '#1-fin.srt'  > /dev/null 2>&1
 mmv '*_French.srt' '#1-fre.srt'  > /dev/null 2>&1
 mmv '*_German.srt' '#1-ger.srt'  > /dev/null 2>&1
@@ -46,12 +47,15 @@ mmv '*_Hebrew.srt' '#1-heb.srt'  > /dev/null 2>&1
 mmv '*_Hungarian.srt' '#1-hun.srt'  > /dev/null 2>&1
 mmv '*_Italian.srt' '#1-ita.srt'  > /dev/null 2>&1
 mmv '*_Indonesian.srt' '#1-ind.srt'  > /dev/null 2>&1
+mmv '*_Latvian.srt' '#1-lat.srt'  > /dev/null 2>&1
+mmv '*_Lithuanian.srt' '#1-lit.srt'  > /dev/null 2>&1
 mmv '*_Japanese.srt' '#1-jpn.srt'  > /dev/null 2>&1
 mmv '*_Korean.srt' '#1-kor.srt'  > /dev/null 2>&1
 mmv '*_Polish.srt' '#1-pol.srt'  > /dev/null 2>&1
 mmv '*_Portuguese.srt' '#1-por.srt'  > /dev/null 2>&1
 mmv '*_Romanian.srt' '#1-rum.srt'  > /dev/null 2>&1
 mmv '*_Russian.srt' '#1-rus.srt'  > /dev/null 2>&1
+mmv '*_Slovenian.srt' '#1-slv.srt'  > /dev/null 2>&1
 mmv '*_Spanish.srt' '#1-spa.srt'  > /dev/null 2>&1
 mmv '*_Swedish.srt' '#1-swe.srt'  > /dev/null 2>&1
 mmv '*_Thai.srt' '#1-tha.srt'  > /dev/null 2>&1
