@@ -32,6 +32,7 @@ for FILE in ./*.srt; do sed -i "s#</b>##g" "${FILE}"; done
 mmv '?_*.srt' '0#1_#2.srt' > /dev/null 2>&1
 mmv '*_Arabic.srt' '#1-ara.srt'  > /dev/null 2>&1
 mmv '*_Chinese.srt' '#1-chi.srt'  > /dev/null 2>&1
+mmv '*_Croatian.srt' '#1-hrv.srt'  > /dev/null 2>&1
 mmv '*_Czech.srt' '#1-cze.srt'  > /dev/null 2>&1
 mmv '*_Bokmal.srt' '#1-nor.srt'  > /dev/null 2>&1
 mmv '*_Bulgarian.srt' '#1-bul.srt'  > /dev/null 2>&1
@@ -55,6 +56,7 @@ mmv '*_Polish.srt' '#1-pol.srt'  > /dev/null 2>&1
 mmv '*_Portuguese.srt' '#1-por.srt'  > /dev/null 2>&1
 mmv '*_Romanian.srt' '#1-rum.srt'  > /dev/null 2>&1
 mmv '*_Russian.srt' '#1-rus.srt'  > /dev/null 2>&1
+mmv '*_Serbian.srt' '#1-srp.srt'  > /dev/null 2>&1
 mmv '*_Slovenian.srt' '#1-slv.srt'  > /dev/null 2>&1
 mmv '*_Spanish.srt' '#1-spa.srt'  > /dev/null 2>&1
 mmv '*_Swedish.srt' '#1-swe.srt'  > /dev/null 2>&1
