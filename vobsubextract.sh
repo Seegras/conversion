@@ -6,13 +6,13 @@
 # 
 # Author:  Peter Keel <seegras@discordia.ch>
 # Date:    
-# Version: 0.2
+# Version: 0.3
 # License: Public Domain
 # URL:     https://seegras.discordia.ch/Programs/
 #
 
-if ! command -v mkvmerge mkvextract >/dev/null 2>&1; then
-    echo >&2 "Tools mkvmerge & mkvextract are required. Install package mkvtoolnix."
+if ! command -v mkvmerge mkvextract ffmpeg flip >/dev/null 2>&1; then
+    echo >&2 "Tools mkvmerge, mkvextract, ffmpeg and flip are required. Hint: apt install mkvtoolnix ffmpeg flip"
     exit 1
 fi
 
@@ -31,7 +31,6 @@ mkvmerge -J "${filename}" | jq -r '.tracks | map((.id | tostring) + " " + .prope
     ;; 
     *.mp4 )
 filename_no_ext=$(basename "$filename" .mp4)
-# ffmpeg -i "$filename" -map 0:s:0 "$filename_no_ext.srt"
 ffmpeg -i "$filename" 2>&1 | sed -n "s/.*Stream \#\(.\+\)\:\([0-9]\+\)(\(.\+\))\: Subtitle\: \([a-zA-Z0-9]\+\).*$/-map \1:\2 $filename_no_ext-\2-\3.srt/p" | xargs ffmpeg -i $filename
 for subfile in $filename_no_ext*.srt; do 
     flip -ub $subfile
