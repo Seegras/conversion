@@ -31,10 +31,12 @@ mkvmerge -J "${filename}" | jq -r '.tracks | map((.id | tostring) + " " + .prope
     ;; 
     *.mp4 )
 filename_no_ext=$(basename "$filename" .mp4)
-ffmpeg -i "$filename" -map 0:s:0 "$filename_no_ext.srt"
-flip -ub "$filename_no_ext.srt"
-#sed -n -i '/^$/!{s/<[^>]*>//g;p;}' "$filename_no_ext.srt"
-sed -i 's/<[^>]\+>/ /g' "$filename_no_ext.srt"
+# ffmpeg -i "$filename" -map 0:s:0 "$filename_no_ext.srt"
+ffmpeg -i "$filename" 2>&1 | sed -n "s/.*Stream \#\(.\+\)\:\([0-9]\+\)(\(.\+\))\: Subtitle\: \([a-zA-Z0-9]\+\).*$/-map \1:\2 $filename_no_ext-\2-\3.srt/p" | xargs ffmpeg -i $filename
+for subfile in $filename_no_ext*.srt; do 
+    flip -ub $subfile
+    sed -i 's/<[^>]\+>/ /g' "$subfile"
+done
     ;;
     *.ogm )
 filename_no_ext=$(basename "$filename" .ogm)
