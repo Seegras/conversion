@@ -90,7 +90,7 @@ closedir($in_dir);
 @dir_contents = sort(@dir_contents);
     foreach my $filename (@dir_contents) {
     (my $name,my $suffix) = $filename =~ /^(.*)(\.[^.]*)$/;
-        if ($filename ne ".." and $filename ne "." and ($suffix eq ".png" or $suffix eq ".jpg" )) {
+        if ($filename ne ".." and $filename ne "." and ($suffix eq ".png" or $suffix eq ".jpg" or $suffix eq ".jpeg" )) {
             push @files, $filename;
         }
     }
