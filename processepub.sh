@@ -12,6 +12,12 @@ if ! command -v bicapitalize.pl bookindex.pl epub-meta epub-rename.pl >/dev/null
     exit 1
 fi
 
+shopt -s extglob
+if ! ls *.@(epub|lit|mobi) >/dev/null 2>&1 ; then 
+    echo >&2 "No epub files present"
+    exit 1
+fi
+
 # ensure directories exist
 if [ ! -d books ]; then
     mkdir books

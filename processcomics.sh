@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Author:   Peter Keel <seegras@discordia.ch>
 # Date:     2012-10-20
@@ -10,6 +10,12 @@
 
 if ! command -v bicapitalize.pl bookindex.pl >/dev/null 2>&1; then
     echo >&2 "bicapitalize.pl and bookindex.pl are required"
+    exit 1
+fi
+
+shopt -s extglob
+if ! ls *.@(cbr|cbz) >/dev/null 2>&1 ; then 
+    echo >&2 "No epub files present"
     exit 1
 fi
 

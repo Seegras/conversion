@@ -12,6 +12,11 @@ if ! command -v bicapitalize.pl bookindex.pl >/dev/null 2>&1; then
     exit 1
 fi
 
+if ! ls *.pdf >/dev/null 2>&1 ; then 
+    echo >&2 "No pdf files present"
+    exit 1
+fi
+
 # ensure directories exist
 if [ ! -d books ]; then
     mkdir books
