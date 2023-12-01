@@ -91,6 +91,9 @@ LANG3=$( echo "${FILE}" | cut -d "." -f 1 | rev | cut -c -3 | rev )
          por)
              LANG2="pt"
              ;;
+         rum)
+             LANG2="ro"
+             ;;
          spa)
              LANG2="es"
              ;;
