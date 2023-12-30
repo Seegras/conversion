@@ -29,6 +29,7 @@ for FILE in ./*.srt; do sed -i "s#<font.*\">##g" "${FILE}"; done
 for FILE in ./*.srt; do sed -i "s#</font>##g" "${FILE}"; done 
 for FILE in ./*.srt; do sed -i "s#<b>##g" "${FILE}"; done 
 for FILE in ./*.srt; do sed -i "s#</b>##g" "${FILE}"; done 
+for FILE in ./*.srt; do sed -i "s#|#I#g" "${FILE}"; done 
 mmv '?_*.srt' '0#1_#2.srt' > /dev/null 2>&1
 mmv '*_Arabic.srt' '#1-ara.srt'  > /dev/null 2>&1
 mmv '*_Chinese.srt' '#1-chi.srt'  > /dev/null 2>&1
