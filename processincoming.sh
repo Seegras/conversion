@@ -27,15 +27,15 @@ mmv -g '*/*.*-[0-9][0-9][0-9][0-9].*' '#1/#2 #3-#4#5#6#7.#8' 2> /dev/null
 mmv -g '*/*.*-[0-9][0-9][0-9][0-9].*' '#1/#2 #3-#4#5#6#7.#8' 2> /dev/null
 mmv -g '*/*.*-[0-9][0-9][0-9][0-9].*' '#1/#2 #3-#4#5#6#7.#8' 2> /dev/null
 mmv -g '*/*.*-[0-9][0-9][0-9][0-9].*' '#1/#2 #3-#4#5#6#7.#8' 2> /dev/null
-for DIR in $(find -type d); do
+find . -maxdepth 1 -mindepth 1 -type d | while read DIR; do
     cd "${DIR}" || return
     bicapitalize.pl
     for FILE in *.mp4; do
         if [ ! -f "$(basename $FILE .mp4)".mkv ]; then
             mkvmerge "$FILE" -o "$(basename $FILE .mp4).mkv" --language 0:eng "$(basename $FILE .mp4).srt"
             mkvpropedit --edit track:a1 --set language=en $(basename $FILE .mp4).mkv
-            echo "$FILE"
-            echo "$(basename $FILE .mp4)".srt
+            rm -f "$FILE" 2> /dev/null
+            rm -f "$(basename $FILE .mp4)".srt  2> /dev/null
         fi
     done
     cd "${INCOMING}" || exit
