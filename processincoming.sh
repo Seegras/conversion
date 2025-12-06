@@ -32,7 +32,11 @@ find . -maxdepth 1 -mindepth 1 -type d | while read DIR; do
     bicapitalize.pl
     for FILE in *.mp4; do
         if [ ! -f "$(basename $FILE .mp4)".mkv ]; then
-            mkvmerge "$FILE" -o "$(basename $FILE .mp4).mkv" --language 0:eng "$(basename $FILE .mp4).srt"
+            if [ -f "$(basename $FILE .mp4)".srt ]; then
+                mkvmerge "$FILE" -o "$(basename $FILE .mp4).mkv" --language 0:eng "$(basename $FILE .mp4).srt"
+            else
+                mkvmerge "$FILE" -o "$(basename $FILE .mp4).mkv"
+            fi
             mkvpropedit --edit track:a1 --set language=en $(basename $FILE .mp4).mkv
             rm -f "$FILE" 2> /dev/null
             rm -f "$(basename $FILE .mp4)".srt  2> /dev/null
