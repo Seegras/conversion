@@ -13,11 +13,9 @@ cd "${INCOMING}" || exit
 bicapitalize.pl
 mmv -g -r '*--*' '#1' 2> /dev/null
 mmv -g '*/*/*.HI.srt' '#1/#2/#3.srt' 2> /dev/null
-rm ./*/*YTS*.txt 2> /dev/null
-rm ./*/*YTS*.jpg 2> /dev/null
-rm ./*/*YTS*.nfo 2> /dev/null
-rm ./*/*LAMA*.nfo 2> /dev/null
-rm ./*/*UIndex*.txt 2> /dev/null
+rm ./*/*.txt 2> /dev/null
+rm ./*/*.jpg 2> /dev/null
+rm ./*/*.nfo 2> /dev/null
 mmv -g '*/*.2160p.*.mkv' '#1/#2.mkv' 2> /dev/null
 mmv -g '*/*.1080p.*.mp4' '#1/#2.mp4' 2> /dev/null
 mmv -g '*/*.1080p.*.srt' '#1/#2.srt' 2> /dev/null
