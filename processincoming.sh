@@ -20,6 +20,7 @@ mmv -g '*/*.2160p.*.mkv' '#1/#2.mkv' 2> /dev/null
 mmv -g '*/*.1080p.*.mp4' '#1/#2.mp4' 2> /dev/null
 mmv -g '*/*-1080.mp4' '#1/#2.mp4' 2> /dev/null
 mmv -g '*/*.1080p.*.srt' '#1/#2.srt' 2> /dev/null
+mmv -g '*/*.720p.*.mp4' '#1/#2.mp4' 2> /dev/null
 mmv -g '*/*-720.mp4' '#1/#2.mp4' 2> /dev/null
 mmv -g '*/*.720p.*.srt' '#1/#2.srt' 2> /dev/null
 mmv -g '*/*.*.[0-9][0-9][0-9][0-9].*' '#1/#2 #3-#4#5#6#7.#8' 2> /dev/null
